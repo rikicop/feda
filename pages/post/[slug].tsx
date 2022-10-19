@@ -52,7 +52,7 @@ function Post({ post }: Props) {
       />
       </div>  
       <article className="max-w-3xl mx-auto">
-        <h2 className="text-xl font-light text-gray-500 mb-2">
+        <h2 className="text-5xl font-light text-gray-500 mb-2">
           {post.title}
         </h2>
         <div className="flex items-center space-x-2">
