@@ -44,11 +44,14 @@ function Post({ post }: Props) {
   return (
     <main className="px-3">
       <Header />
-      <img
-        className="w-full h-40 object-cover"
+      <div className="lg:px-56">
+        <img
+        className="w-full h-full object-contain"
         src={urlFor(post.mainImage).url()!}
         alt=""
       />
+      </div>
+      
       <article className="max-w-3xl mx-auto">
         <h2 className="text-xl font-light text-gray-500 mb-2">
           {post.description}
@@ -104,10 +107,10 @@ function Post({ post }: Props) {
         </div>
       </article>
       <br />
-      <div className="flex justify-center items-center h-screen overflow-hidden relative pb-0">
+      <div className="flex justify-center items-center h-[50vh] overflow-hidden relative pb-0">
         <iframe
-          width="553"
-          height="380"
+          width="560"
+          height="315"
           src={post.video}
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
