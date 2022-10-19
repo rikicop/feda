@@ -89,15 +89,15 @@ export default function Home({ posts }: Props) {
                   <div>
                     <p className="text-lg font-bold">{post.title}</p>
                     <p>
-                      {post.description} Por {post.author.name}
+                      {post.description}  { post.author &&  (<><p>Por</p><p className="font-bold">{post.author.name}</p></>)}
                     </p>
                   </div>
-
-                  <img
+                  { post.author &&  <img
                     className="h-12 w-12 rounded-full"
                     src={urlFor(post.author.image).url()!}
                     alt=""
-                  />
+                  />}
+                 
                 </div>
               </div>
             </Link>

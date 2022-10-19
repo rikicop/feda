@@ -18,9 +18,8 @@ interface Props {
 }
 
 function Post({ post }: Props) {
-  //console.log(post);
-  const [submitted, setSubmitted] = useState(false);
   console.log(post);
+  const [submitted, setSubmitted] = useState(false);
   const {
     register,
     handleSubmit,
@@ -55,11 +54,12 @@ function Post({ post }: Props) {
           {post.description}
         </h2>
         <div className="flex items-center space-x-2">
-          <img
+          {post.author.image && (  <img
             className="h-10 w-10 rounded-full"
-            src={urlFor(post.author.image).url()!}
+            src={urlFor(post.author.image).url()}
             alt=""
-          />
+          />  )}
+        
           <p className="font-extralight text-sm">
             Blog post by
             <span className="text-green-600"> {post.author.name}</span> -
@@ -230,10 +230,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         _createdAt,
         title,
         video,
-        author -> {
-            name,
-            image
-        },
+        'author': *[_type == "author" && approved == true][0]{name,image},
         'comments': *[_type == "comment" && 
          post._ref == ^._id &&
          approved == true],
