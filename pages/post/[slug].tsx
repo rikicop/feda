@@ -18,7 +18,7 @@ interface Props {
 }
 
 function Post({ post }: Props) {
-  console.log(post);
+  //console.log(post);
   const [submitted, setSubmitted] = useState(false);
   const {
     register,
@@ -50,27 +50,30 @@ function Post({ post }: Props) {
         src={urlFor(post.mainImage).url()!}
         alt=""
       />
-      </div>
-      
+      </div>  
       <article className="max-w-3xl mx-auto">
         <h2 className="text-xl font-light text-gray-500 mb-2">
-          {post.description}
+          {post.title}
         </h2>
         <div className="flex items-center space-x-2">
-          {post.author.image && (  <img
+          {post.author?.image && (  <img
             className="h-10 w-10 rounded-full"
             src={urlFor(post.author.image).url()}
             alt=""
           />  )}
+          {post.author && (
+              <p className="font-extralight text-sm">
+                Publicado por
+              <span className="text-green-600"> {post.author?.name}</span> -
+                Publicado el {""}
+                {new Date(post._createdAt).toLocaleDateString()}
+             </p>
+            )
+          }
         
-          <p className="font-extralight text-sm">
-            Blog post by
-            <span className="text-green-600"> {post.author.name}</span> -
-            Publicado el {""}
-            {new Date(post._createdAt).toLocaleDateString()}
-          </p>
         </div>
-        <div className={Block.body}>
+        {post.body && (
+           <div className={Block.body}>
           <PortableText
             dataset={process.env.NEXT_PUBLIC_SANITY_DATASET!}
             projectId={process.env.NEXT_PUBLIC_SANITY_PRJECT_ID!}
@@ -105,9 +108,13 @@ function Post({ post }: Props) {
             }}
           />
         </div>
+
+        )}
+       
       </article>
       <br />
-      <div className="flex justify-center items-center h-[50vh] overflow-hidden relative pb-0">
+      { post.video && (
+         <div className="flex justify-center items-center h-[50vh] overflow-hidden relative pb-0">
         <iframe
           width="560"
           height="315"
@@ -118,6 +125,8 @@ function Post({ post }: Props) {
           title="Embedded youtube"
         />
       </div>
+      )}
+     
       <br />
 
       <hr className="max-w-lg my-5 mx-auto border border-blue-500" />
@@ -233,7 +242,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         _createdAt,
         title,
         video,
-        'author': *[_type == "author" && approved == true][0]{name,image},
+        'author': *[_type == "author" && post._ref == ^._id && approved == true][0]{name,image},
         'comments': *[_type == "comment" && 
          post._ref == ^._id &&
          approved == true],
